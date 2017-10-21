@@ -33,7 +33,7 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
-        List<UserMealWithExceed> result = new ArrayList<>();
+        List<UserMealWithExceed> result;
 
         List<LocalDate> allDates = mealList.stream()
                 .map(dates -> dates.getDateTime().toLocalDate())
@@ -52,21 +52,13 @@ public class UserMealsUtil {
 
         List<UserMealWithExceed> preResult = new ArrayList<>();
 
-        for (int i = 0; i < allDates.size(); i++) {
-            for(UserMeal m : mealList){
-                if(m.getDateTime().toLocalDate().equals(allDates.get(i))){
-                    UserMealWithExceed e = new UserMealWithExceed(m.getDateTime(), m.getDescription(), m.getCalories(), isExceedingInDates.get(i));
-                    preResult.add(e);
-                }
-            }
+        for(UserMeal m : mealList){
+                preResult.add(new UserMealWithExceed(m.getDateTime(), m.getDescription(), m.getCalories(), isExceedingInDates.get(allDates.indexOf(m.getDateTime().toLocalDate()))));
         }
 
         result = preResult.stream()
                 .filter(meal -> meal.getDateTime().toLocalTime().isAfter(startTime)&&meal.getDateTime().toLocalTime().isBefore(endTime))
                 .collect(Collectors.toList());
-
-        System.out.println();
-
 
         return result;
     }
