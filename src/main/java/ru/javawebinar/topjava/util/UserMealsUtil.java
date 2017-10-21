@@ -3,11 +3,14 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -30,6 +33,41 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
-        return null;
+        List<UserMealWithExceed> result = new ArrayList<>();
+
+        List<LocalDate> allDates = mealList.stream()
+                .map(dates -> dates.getDateTime().toLocalDate())
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<Boolean> isExceedingInDates = allDates.stream().map(meals -> {
+            int callories = 0;
+            for(UserMeal m : mealList){
+                if(m.getDateTime().toLocalDate().equals(meals)){
+                    callories+=m.getCalories();
+                }
+            }
+            return callories>2000;
+        }).collect(Collectors.toList());
+
+        List<UserMealWithExceed> preResult = new ArrayList<>();
+
+        for (int i = 0; i < allDates.size(); i++) {
+            for(UserMeal m : mealList){
+                if(m.getDateTime().toLocalDate().equals(allDates.get(i))){
+                    UserMealWithExceed e = new UserMealWithExceed(m.getDateTime(), m.getDescription(), m.getCalories(), isExceedingInDates.get(i));
+                    preResult.add(e);
+                }
+            }
+        }
+
+        result = preResult.stream()
+                .filter(meal -> meal.getDateTime().toLocalTime().isAfter(startTime)&&meal.getDateTime().toLocalTime().isBefore(endTime))
+                .collect(Collectors.toList());
+
+        System.out.println();
+
+
+        return result;
     }
 }
