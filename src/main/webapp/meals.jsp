@@ -5,27 +5,35 @@
     <title>meals</title>
 </head>
 <body>
+<form action="/meals" method="post">
 <table>
-
         <c:forEach items="${meals}" var="itemBean">
              <c:set var="bool" value="${itemBean.exceed}"/>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Calories</th>
+                <th>DateTime</th>
+                <th></th>
+            </tr>
+            </thead>
                 <c:choose>
                     <c:when test="${bool==true}">
                         <tr style="color: red">
-                        <td>${itemBean.description}</td> <td></td> <td>${itemBean.calories}</td> <td></td> <td> ${itemBean.dateTime}</td>Pfhf
-
                     </c:when>
                     <c:when test="${bool==false}">
                         <tr style="color: green">
-                        <td>${itemBean.description}</td> <td></td> <td>${itemBean.calories}</td> <td></td> <td> ${itemBean.dateTime}</td>
                     </c:when>
                 </c:choose>
-                <td>${itemBean.description}</td> <td></td> <td>${itemBean.calories}</td> <td></td> <td> ${itemBean.dateTime}</td>
-
+                <td><c:out value="${itemBean.id}"/></td>
+                <td><c:out value="${itemBean.description}" /></td>
+                <td><c:out value="${itemBean.calories}" /></td>
+                <td><c:out value="${itemBean.dateTime}" /></td>
+                <td> <a href="/meals?action=delete&mealid=${itemBean.id}">Delete</a> </td>
             </tr>
-
         </c:forEach>
-
 </table>
+</form>
 </body>
 </html>
