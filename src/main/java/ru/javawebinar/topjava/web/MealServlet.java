@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class MealServlet extends HttpServlet {
                 return;
             }
         }
+        req.setCharacterEncoding("UTF-8");
+
         req.setAttribute("meals", getMeals());
 
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
@@ -37,8 +40,30 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("button");
+        req.setCharacterEncoding("UTF-8");
+        if(action!=null){
+            if(action.equals("Add")){
+                try {
+                    String description = req.getParameter("addDescription");
+                    int addCalories = Integer.parseInt(req.getParameter("addCalories"));
+                    LocalDateTime addDate = LocalDateTime.parse(req.getParameter("addDate"));
 
+                    MealRepository.addMeal(addDate, description, addCalories);
+
+                    resp.sendRedirect("/meals");
+                    return;
+                } catch (Exception e)
+                {
+                    resp.sendRedirect("/meals");
+                    return;
+                }
+            } else if (action.equals("Update")){
+
+            }
+        }
     }
+
 
     private List<MealWithExceed> getMeals(){
         return MealsUtil.getFilteredWithExceeded(MealRepository.getMeals(), LocalTime.MIN, LocalTime.MAX, 2000);

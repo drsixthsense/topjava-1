@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <html>
 <head>
@@ -6,6 +6,11 @@
 </head>
 <body>
 <form action="/meals" method="post">
+    <input type="text" name= "addDescription" value="">
+    <input type="number" name = "addCalories" value="">
+    <input type="datetime-local" name="addDate" value="">
+    <input type="submit" name="button" value="Add">
+
 <table>
         <c:forEach items="${meals}" var="itemBean">
              <c:set var="bool" value="${itemBean.exceed}"/>
