@@ -26,12 +26,13 @@ public class MealServlet extends HttpServlet {
         String action = req.getParameter("action");
         if(action!=null) {
             if(action.equals("delete")) {
+                log.debug("entered delete meal action. meailId = "+req.getParameter("mealid"));
                 deleteMeal(Integer.parseInt(req.getParameter("mealid")));
                 resp.sendRedirect("/meals");
+                log.debug("meal deleted successfully");
                 return;
             }
         }
-        req.setCharacterEncoding("UTF-8");
 
         req.setAttribute("meals", getMeals());
 
@@ -40,8 +41,8 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("doPost entered");
         String action = req.getParameter("button");
-        req.setCharacterEncoding("UTF-8");
         if(action!=null){
             if(action.equals("Add")){
                 try {
@@ -52,9 +53,11 @@ public class MealServlet extends HttpServlet {
                     MealRepository.addMeal(addDate, description, addCalories);
 
                     resp.sendRedirect("/meals");
+                    log.debug("new meal added. sendRedirect to /meals");
                     return;
                 } catch (Exception e)
                 {
+                    log.error("Exception thrown in doPost of MealServlet: " + e.getMessage());
                     resp.sendRedirect("/meals");
                     return;
                 }
