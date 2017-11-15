@@ -27,9 +27,9 @@ public class MealRestController {
         return service.get(id, userId);
     }
 
-    public Meal save(Meal meal) {
+    public Meal save(Meal meal, int userId) {
         log.info("create {}", meal);
-        return service.save(meal);
+        return service.save(meal, userId);
     }
 
     public boolean delete(int id, int userId) {

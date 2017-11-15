@@ -49,5 +49,14 @@
         </c:forEach>
     </table>
 </section>
+<form name="select user" method="post" action="/meals">
+    <select>
+        <option name="userId" value="1"> User ID 1</option>
+        <option name="userId" value="2"> User ID 2</option>
+    </select>
+    <input type="submit" name="button" value="Submit">
+    <a href="/meals?action=changeUser&userId=1">User 1</a>
+    <a href="/meals?action=changeUser&userId=2">User 2</a>
+</form>
 </body>
 </html>

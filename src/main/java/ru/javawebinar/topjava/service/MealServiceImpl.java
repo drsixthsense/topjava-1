@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -10,12 +11,13 @@ import java.util.List;
 @Service
 public class MealServiceImpl implements MealService {
 
+    @Autowired
     private MealRepository repository;
 
 
     @Override
     public Meal save(Meal meal, int userId) {
-        return repository.save(meal);
+        return repository.save(meal, userId);
     }
 
     @Override
