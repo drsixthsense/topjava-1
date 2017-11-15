@@ -15,15 +15,24 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(this::save);
+        for (Meal m : MealsUtil.MEALS) {
+            this.save(m, m.getUserID());
+        }
     }
 
     @Override
-    public Meal save(Meal meal) {
+    public Meal save(Meal meal, int userId) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
+            meal.setUserID(userId);
+            repository.put(meal.getId(), meal);
+        } else {
+            if(repository.get(meal.getId()).getUserID()==userId) {
+                repository.put(meal.getId(), meal);
+            } else {
+                throw new NotFoundException("Can't update meal, inproper owner");
+            }
         }
-        repository.put(meal.getId(), meal);
         return meal;
     }
 
