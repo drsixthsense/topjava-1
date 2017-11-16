@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.meal;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
@@ -17,23 +18,23 @@ public class MealRestController {
     @Autowired
     private MealService service;
 
-    public List<Meal> getAll(int userId) {
+    public List<Meal> getAll() {
         log.info("getAll");
-        return service.getAll(userId);
+        return service.getAll(AuthorizedUser.id());
     }
 
-    public Meal get(int id, int userId) {
-        log.info("get {}", id, userId);
-        return service.get(id, userId);
+    public Meal get(int id) {
+        log.info("get {}", id, AuthorizedUser.id());
+        return service.get(id, AuthorizedUser.id());
     }
 
-    public Meal save(Meal meal, int userId) {
+    public Meal save(Meal meal) {
         log.info("create {}", meal);
-        return service.save(meal, userId);
+        return service.save(meal, AuthorizedUser.id());
     }
 
-    public boolean delete(int id, int userId) {
-        log.info("delete {}", id, userId);
-        return service.delete(id, userId);
+    public boolean delete(int id) {
+        log.info("delete {}", id, AuthorizedUser.id());
+        return service.delete(id, AuthorizedUser.id());
     }
 }
