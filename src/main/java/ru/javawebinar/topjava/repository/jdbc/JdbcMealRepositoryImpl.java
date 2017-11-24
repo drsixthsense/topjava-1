@@ -30,7 +30,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Autowired
     public JdbcMealRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("meals");
+                .withTableName("meals")
+                .usingGeneratedKeyColumns("id");;
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -73,8 +74,6 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE userid=? AND datetime BETWEEN "+ DateTimeUtil.toString(startDate)
-                +" AND "+DateTimeUtil.toString(endDate), ROW_MAPPER, userId);
-
+        return jdbcTemplate.query("SELECT * FROM meals WHERE userid=? AND datetime >= '"+ DateTimeUtil.toString(startDate)+"' AND datetime <= '"+DateTimeUtil.toString(endDate)+"'", ROW_MAPPER, userId);
     }
 }
