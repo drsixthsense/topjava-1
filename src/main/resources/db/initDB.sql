@@ -28,9 +28,11 @@ CREATE TABLE user_roles
 CREATE TABLE meals
 (
   id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  dateTime        TIMESTAMP NOT NULL DEFAULT now()  NOT NULL ,
+  dateTime        TIMESTAMP NOT NULL UNIQUE DEFAULT now()  NOT NULL ,
   description     VARCHAR                           NOT NULL ,
   calories        INT                               NOT NULL ,
   userId          INTEGER                           NOT NULL ,
   FOREIGN KEY (userId) REFERENCES users (id)
-)
+
+);
+CREATE INDEX CONCURRENTLY idx_meal ON meals(dateTime, calories);
