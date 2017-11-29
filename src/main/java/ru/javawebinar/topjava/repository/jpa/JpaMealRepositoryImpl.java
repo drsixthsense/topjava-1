@@ -39,7 +39,6 @@ public class JpaMealRepositoryImpl implements MealRepository {
                 .setParameter("userId", userId)
                 .executeUpdate() != 0;
     }
-
     @Override
     public Meal get(int id, int userId) {
         return (Meal) em.createQuery("SELECT m from Meal m WHERE m.id = :id AND m.user.id = :userId")
