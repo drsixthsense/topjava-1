@@ -1,6 +1,9 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Stopwatch;
 import org.junit.rules.TestName;
@@ -21,7 +24,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -36,7 +38,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
     private static final Logger log = getLogger(MealServiceTest.class);
-    private final List<String> results = new ArrayList<>();
+    private static final List<String> results = new ArrayList<>();
 
     @BeforeClass
     public static void beforeTesting(){
@@ -54,7 +56,7 @@ public class MealServiceTest {
         @Override
         protected void finished(long nanos, Description description) {
             log.info("{} - {} ms", description.getMethodName(), nanos/1000000);
-            results.add(description.getTestClass().getSimpleName()+ " "+name+ " in "+ nanos/1000000 );
+            results.add(description.getTestClass().getSimpleName()+ " "+name.getMethodName()+ " in "+ nanos/1000000 );
         }
     };
 
@@ -69,7 +71,6 @@ public class MealServiceTest {
     public void testDelete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
-        results.add(name + " " + stopwatch.runtime(TimeUnit.MILLISECONDS));
     }
 
     @Test
@@ -128,6 +129,8 @@ public class MealServiceTest {
 
     @AfterClass
     public static void afterTesting(){
-
+        for(String s : results){
+            System.out.println(s);
+        }
     }
 }
