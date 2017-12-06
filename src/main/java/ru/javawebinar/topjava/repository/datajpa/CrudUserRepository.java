@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,4 +31,8 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     List<User> findAll(Sort sort);
 
     User getByEmail(String email);
+
+    @OneToMany
+    @Query("SELECT u FROM User u left join fetch u.meals where u.id= :id")
+    User findUserById(@Param("id") int id);
 }
