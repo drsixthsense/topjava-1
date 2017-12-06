@@ -79,4 +79,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                         .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                         .collect(Collectors.toList());
     }
+
+    @Override
+    public Meal getMealWithUser(int id, int user_id) {
+        return null;
+    }
 }
