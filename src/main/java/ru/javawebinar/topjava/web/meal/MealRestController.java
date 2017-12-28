@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -52,8 +52,28 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
-    @GetMapping(value = "/{startDate}/{endDate}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MealWithExceed> getBetweenForRest (@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate, @PathVariable("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return super.getBetween(startDate.toLocalDate(), startDate.toLocalTime(), endDate.toLocalDate(), endDate.toLocalTime());
+    @GetMapping(value = "/{startDate}/{startTime}/{endDate}/{endTime}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MealWithExceed> getBetweenForRest (@PathVariable("startDate") String startDate, @PathVariable("startTime") String startTime , @PathVariable("endDate") String endDate, @PathVariable("endTime") String endTime) {
+/*        if(startDate==null) startDate = LocalDate.MIN;
+        if(endDate==null) startDate = LocalDate.MAX;
+        if(startTime == null) startTime = LocalTime.MIN;
+        if(endTime == null) endTime = LocalTime.MAX;*/
+        LocalDate sDate, eDate;
+        LocalTime sTime, eTime;
+
+        if(startDate.equals("null")){
+            sDate = LocalDate.MIN;
+        } else { sDate = LocalDate.parse(startDate); }
+        if(startTime.equals("null")){
+            sTime = LocalTime.MIN;
+        } else { sTime = LocalTime.parse(startTime); }
+        if(endDate.equals("null")){
+            eDate = LocalDate.MAX;
+        } else { eDate = LocalDate.parse(endDate); }
+        if(startTime.equals("null")){
+            eTime = LocalTime.MAX;
+        } else { eTime = LocalTime.parse(endTime); }
+
+        return super.getBetween(sDate, sTime, eDate, eTime);
     }
 }

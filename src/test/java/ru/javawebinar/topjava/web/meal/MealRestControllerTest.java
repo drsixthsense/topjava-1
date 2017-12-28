@@ -76,12 +76,16 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testFilter() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL+"2015-05-31T00:00:00/"+"2015-05-31T23:59:00")
+        TestUtil.print(mockMvc.perform(get(REST_URL+"2015-05-31/09:00:00/"+"2015-05-31/14:00:00")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(contentJson(MEAL5, MEAL4))
+        );
+        TestUtil.print(mockMvc.perform(get(REST_URL+"2015-05-31/null/"+"2015-05-31/null")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(contentJson(MEAL6, MEAL5, MEAL4))
         );
-
     }
 
 }
