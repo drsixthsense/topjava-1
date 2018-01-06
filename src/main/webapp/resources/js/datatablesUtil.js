@@ -79,3 +79,4 @@ function failNoty(jqXHR) {
         layout: "bottomRight"
     }).show();
 }
+

@@ -1,9 +1,15 @@
 var ajaxUrl = "ajax/admin/users/";
 var datatableApi;
 
+function switchUser() {
+    alert("hi!");
+    updateTable();
+}
+
 // $(document).ready(function () {
 $(function () {
     datatableApi = $("#datatable").DataTable({
+
         "paging": false,
         "info": true,
         "columns": [
@@ -38,5 +44,15 @@ $(function () {
             ]
         ]
     });
+    debugger;
     makeEditable();
+    $("input[type='checkbox']:checked").change(function() {
+        alert("hey! I'm checked!");
+    });
+    $("input[type='checkbox']").change(function() {
+        alert("Wow!");
+    });
+    $(document).on('change', 'input[Id="checkbox"]', function (e) {
+        alert($(this).val());
+    });
 });

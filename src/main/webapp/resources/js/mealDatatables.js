@@ -1,6 +1,20 @@
 var ajaxUrl = "/ajax/profile/meals/";
 var datatableApi;
 
+function filter() {
+    var form = $("#filterForm");
+    $.get({
+        type: "GET",
+        url: ajaxUrl+"/filter",
+        data: form.serialize(),
+        success: function (data) {
+            datatableApi.clear().rows.add(data).draw();
+        }
+
+    });
+}
+
+
 $(function () {
     datatableApi = $("#datatable").DataTable({
         "paging": false,
