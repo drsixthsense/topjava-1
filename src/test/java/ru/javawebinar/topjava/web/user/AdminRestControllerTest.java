@@ -43,7 +43,7 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + USER_ID))
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
         assertMatch(userService.getAll(), ADMIN);
     }
 
