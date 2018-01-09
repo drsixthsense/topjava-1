@@ -1,9 +1,20 @@
 var ajaxUrl = "ajax/admin/users/";
 var datatableApi;
 
-function switchUser() {
-    alert("hi!");
-    updateTable();
+function updateEnabled(elem) {
+    var enabled = elem.is(":checked");
+    var userRow = elem.closest("tr");
+    var id = elem.getValue();
+    var vals = [id, enabled];
+    $.ajax({
+        type: "PUT",
+        url: ajaxUrl,
+        data: vals.serialize(),
+        success: function () {
+            updateTable();
+            successNoty("Action performed");
+        }
+    });
 }
 
 // $(document).ready(function () {
@@ -46,13 +57,7 @@ $(function () {
     });
     debugger;
     makeEditable();
-    $("input[type='checkbox']:checked").change(function() {
-        alert("hey! I'm checked!");
-    });
-    $("input[type='checkbox']").change(function() {
-        alert("Wow!");
-    });
-    $(document).on('change', 'input[Id="checkbox"]', function (e) {
-        alert($(this).val());
+    $('input[name="enabled"]').change(function () {
+        updateEnabled($(this));
     });
 });

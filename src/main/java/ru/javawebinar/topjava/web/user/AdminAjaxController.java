@@ -35,7 +35,8 @@ public class AdminAjaxController extends AbstractUserController {
         }
     }
 
-    @PutMapping void changeUserState(
+    @PutMapping
+    public void changeUserState(
             @RequestParam("id") Integer id,
             @RequestParam("enabled") Boolean state){
         switchActiveState(id, state);
