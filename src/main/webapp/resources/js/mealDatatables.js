@@ -27,9 +27,9 @@ $(function () {
                 "data": "dateTime",
                 "render": function (datetime, type, row) {
                     if (type === "display") {
-                        return datetime;
+                        return datetime.substring(0, 10)+" "+datetime.substring(11);
                     }
-                    return datetime;
+                    return datetime.substring(0, 10)+" "+datetime.substring(11);
                 }
             },
             {

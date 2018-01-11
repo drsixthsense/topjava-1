@@ -130,9 +130,6 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
-<link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/>
-<script src="/jquery.js"></script>
-<script src="/build/jquery.datetimepicker.full.min.js"></script>
 
 <script type="text/javascript">
     var i18n = [];
