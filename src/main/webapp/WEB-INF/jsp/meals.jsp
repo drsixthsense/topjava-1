@@ -138,25 +138,24 @@
 1
 <script>
     $('#dateTime').datetimepicker({
-        inline:true,
+        format:'Y-m-d H:m',
+        inline:true
     });
     $('#startDate').datetimepicker({
         timepicker:false,
-        format:'m/d/Y',
-        inline:true,
+        format:'Y-m-d'
     });
     $('#startTime').datetimepicker({
         datepicker:false,
-        format:'H:i'
+        format:'H:m'
     });
     $('#endDate').datetimepicker({
         timepicker:false,
-        format:'m/d/Y',
-        inline:true,
+        format:'Y-m-d'
     });
     $('#endTime').datetimepicker({
         datepicker:false,
-        format:'H:i'
+        format:'H:m'
     });
 </script>
 
