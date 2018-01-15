@@ -139,7 +139,6 @@
 <script>
     $('#dateTime').datetimepicker({
         format:'Y-m-d H:m',
-        inline:true
     });
     $('#startDate').datetimepicker({
         timepicker:false,
